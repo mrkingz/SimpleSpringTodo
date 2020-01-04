@@ -132,4 +132,18 @@ public class TodoItemService extends CustomDate implements ICRUD<TodoItem> {
             throw new CustomException("Could not mark item as completed; please, try again", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Filter list.
+     *
+     * @param filter the filter
+     * @return the list
+     */
+    public List<TodoItem> filter(boolean filter) {
+        try {
+            return this.getTodoItemRepository().filter(filter);
+        } catch (Exception ex) {
+            throw new CustomException(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The type Todo item controller.
@@ -61,7 +62,7 @@ public class TodoItemController {
      */
     @GetMapping(value = "/todoItems/{id}",
     produces = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public TodoItem findTodoItem(@PathVariable("id") long id) {
         return this.getTodoItemService().findOne(id);
     }
@@ -72,9 +73,11 @@ public class TodoItemController {
      * @return the all todo items
      */
     @GetMapping(value = "/todoItems", produces = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.FOUND)
-    public List<TodoItem> getAllTodoItems() {
-        return this.getTodoItemService().list();
+    @ResponseStatus(HttpStatus.OK)
+    public List<TodoItem> getAllTodoItems(@RequestParam(name = "completed") Optional<Boolean> complete) {
+        return complete.isPresent()
+                ? this.getTodoItemService().filter(complete.get())
+                : this.getTodoItemService().list();
     }
 
 
