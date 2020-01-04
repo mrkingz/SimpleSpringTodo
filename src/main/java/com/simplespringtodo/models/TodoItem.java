@@ -1,5 +1,8 @@
 package com.simplespringtodo.models;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.sql.Timestamp;
 
 /**
@@ -7,13 +10,53 @@ import java.sql.Timestamp;
  */
 public class TodoItem {
 
+    private long id;
+
+    private long todoId;
+
     private String content;
 
     private boolean isCompleted;
 
-    private Timestamp createdAt;
+    private String createdAt;
 
-    private Timestamp updatedAt;
+    private String updatedAt;
+
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
+     * Gets todo id.
+     *
+     * @return the todo id
+     */
+    public long getTodoId() {
+        return todoId;
+    }
+
+    /**
+     * Sets todo id.
+     *
+     * @param todoId the todo id
+     */
+    public void setTodoId(long todoId) {
+        this.todoId = todoId;
+    }
 
     /**
      * Gets content.
@@ -60,7 +103,7 @@ public class TodoItem {
      *
      * @return the created at
      */
-    public Timestamp getCreatedAt() {
+    public String getCreatedAt() {
 
         return createdAt;
     }
@@ -70,7 +113,7 @@ public class TodoItem {
      *
      * @param createdAt the created at
      */
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(String createdAt) {
 
         this.createdAt = createdAt;
     }
@@ -80,7 +123,7 @@ public class TodoItem {
      *
      * @return the updated at
      */
-    public Timestamp getUpdatedAt() {
+    public String getUpdatedAt() {
 
         return updatedAt;
     }
@@ -90,8 +133,21 @@ public class TodoItem {
      *
      * @param updatedAt the updated at
      */
-    public void setUpdatedAt(Timestamp updatedAt) {
+    public void setUpdatedAt(String updatedAt) {
 
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        String string = new String();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            string = mapper.writeValueAsString(this);
+        } catch (JsonProcessingException ex) {
+            ex.printStackTrace();
+        }
+
+        return string;
     }
 }

@@ -34,14 +34,14 @@ public class ResetRequestFilter implements Filter {
 
                 try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(super.getInputStream()))) {
 
-                    int bytesRead = -1;
+                    int bytesRead;
                     while ((bytesRead = bufferedReader.read()) > 0) {
                         stringBuilder.append((char) bytesRead);
                     }
 
                     ObjectMapper mapper = new ObjectMapper();
                     Todo todo = mapper.readValue(stringBuilder.toString().getBytes(), Todo.class);
-                    // Perform operations on todo insatnce here
+                    // Perform operations on todo instance here
 
                     ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(mapper.writeValueAsBytes(todo));
                     inputStream = new ServletInputStream() {
