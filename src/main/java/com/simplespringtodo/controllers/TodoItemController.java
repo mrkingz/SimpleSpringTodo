@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 /**
  * The type Todo item controller.
@@ -74,9 +75,14 @@ public class TodoItemController {
      */
     @GetMapping(value = "/todoItems", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public List<TodoItem> getAllTodoItems(@RequestParam(name = "completed") Optional<Boolean> complete) {
-        return complete.isPresent()
-                ? this.getTodoItemService().filter(complete.get())
+    public List<TodoItem> getAllTodoItems(@RequestParam(name = "completed") Optional<String> complete) {
+
+        Pattern pattern = Pattern.compile("true|false", Pattern.CASE_INSENSITIVE);
+
+        // If request the value of te request parameter is not a valid boolean value,
+        // then default to list all items
+        return complete.isPresent() && pattern.matcher(complete.get()).matches()
+                ? this.getTodoItemService().filter(Boolean.parseBoolean(complete.get()))
                 : this.getTodoItemService().list();
     }
 
