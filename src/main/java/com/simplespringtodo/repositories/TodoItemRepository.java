@@ -5,10 +5,7 @@ import com.simplespringtodo.interfaces.ICRUD;
 import com.simplespringtodo.models.TodoItem;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.*;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
@@ -18,6 +15,7 @@ import java.util.List;
 /**
  * The type Todo item repository.
  */
+@SuppressWarnings("DuplicatedCode")
 public class TodoItemRepository implements ICRUD<TodoItem> {
 
     private TodoItemRepository todoItemRepository;
@@ -27,7 +25,7 @@ public class TodoItemRepository implements ICRUD<TodoItem> {
     /**
      * Instantiates a new Todo item repository.
      *
-     * @param jdbcTemplate       the jdbc template
+     * @param jdbcTemplate the jdbc template
      */
     public TodoItemRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -87,7 +85,11 @@ public class TodoItemRepository implements ICRUD<TodoItem> {
     public List<TodoItem> list() {
         String sql = "SELECT * FROM \"todoItems\"";
 
-        return this.getJdbcTemplate().query(sql, new RowMapper<TodoItem>() {
+        return this.getJdbcTemplate().query(sql, this.getRowMapper());
+    }
+
+    private RowMapper<TodoItem> getRowMapper() {
+        return new RowMapper<TodoItem>() {
             @Override
             public TodoItem mapRow(ResultSet resultSet, int i) throws SQLException {
                 TodoItem todoItem = new TodoItem();
@@ -100,7 +102,7 @@ public class TodoItemRepository implements ICRUD<TodoItem> {
 
                 return todoItem;
             }
-        });
+        };
     }
 
     @Override
@@ -173,5 +175,27 @@ public class TodoItemRepository implements ICRUD<TodoItem> {
         };
 
         this.getJdbcTemplate().update(psc);
+    }
+
+
+    /**
+     * Filter list.
+     *
+     * @param filter the filter
+     * @return the list
+     */
+    public List<TodoItem> filter(boolean filter) {
+      PreparedStatementCreator psc = new PreparedStatementCreator() {
+          @Override
+          public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+              String sql = "SELECT * FROM \"todoItems\" WHERE \"isCompleted\" = ?";
+              PreparedStatement ps = connection.prepareStatement(sql);
+              ps.setBoolean(1, filter);
+
+              return ps;
+          }
+      };
+
+      return this.getJdbcTemplate().query(psc, this.getRowMapper());
     }
 }

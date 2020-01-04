@@ -56,7 +56,7 @@ public class TodoController {
      * @return the list
      */
     @GetMapping(value = "/todos", produces = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public List<Todo> listTodos() {
         return this.getTodoService().list();
     }
@@ -69,7 +69,7 @@ public class TodoController {
      */
     @GetMapping(value = "/todos/{id}",
         produces = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public Todo findTodo(@PathVariable("id") long id) {
         return this.getTodoService().findOne(id);
     }

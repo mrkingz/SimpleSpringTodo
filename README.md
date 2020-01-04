@@ -1,4 +1,7 @@
 ## SimpleSpringTodo
+A simple Todo API application
 
-#### Description
-A simple Todo application
+#### Technology stack
+- Java (Spring framework)
+- PostgreSQL
+- SQL
