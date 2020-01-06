@@ -92,8 +92,7 @@ public class Todo {
         String string = new String();
 
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            string = mapper.writeValueAsString(this);
+            string = new ObjectMapper().writeValueAsString(this);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

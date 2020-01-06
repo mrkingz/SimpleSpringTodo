@@ -143,8 +143,7 @@ public class TodoItem {
     public String toString() {
         String string = new String();
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            string = mapper.writeValueAsString(this);
+            string = new ObjectMapper().writeValueAsString(this);
         } catch (JsonProcessingException ex) {
             ex.printStackTrace();
         }

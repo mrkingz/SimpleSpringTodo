@@ -38,4 +38,12 @@ public class CustomException extends RuntimeException {
     public void setStatus(HttpStatus status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("{ status: ").append(this.getStatus().value()+", ").append("message: ").append(this.getMessage()+" }");
+
+        return builder.toString();
+    }
 }
