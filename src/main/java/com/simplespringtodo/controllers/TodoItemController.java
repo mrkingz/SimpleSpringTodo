@@ -3,6 +3,7 @@ package com.simplespringtodo.controllers;
 import com.simplespringtodo.exceptions.CustomException;
 import com.simplespringtodo.models.TodoItem;
 import com.simplespringtodo.services.TodoItemService;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -77,11 +78,7 @@ public class TodoItemController {
     @ResponseStatus(HttpStatus.OK)
     public List<TodoItem> getAllTodoItems(@RequestParam(name = "completed") Optional<String> complete) {
 
-        Pattern pattern = Pattern.compile("true|false", Pattern.CASE_INSENSITIVE);
-
-        // If request the value of te request parameter is not a valid boolean value,
-        // then default to list all items
-        return complete.isPresent() && pattern.matcher(complete.get()).matches()
+        return complete.isPresent()
                 ? this.getTodoItemService().filter(Boolean.parseBoolean(complete.get()))
                 : this.getTodoItemService().list();
     }
