@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.sql.DataSource;
 
@@ -19,7 +20,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.simplespringtodo")
-public class WebConfig {
+public class WebConfig implements WebMvcConfigurer {
 
     /**
      * Data source data source.
