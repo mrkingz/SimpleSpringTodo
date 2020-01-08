@@ -40,9 +40,7 @@ public class TodoController {
      * @param todo the todo
      * @return the todo
      */
-    @PostMapping(value = "/todos",
-            produces = { MediaType.APPLICATION_JSON_VALUE },
-            consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @PostMapping(value = "/todos", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
     public Todo create(@RequestBody Todo todo) {
 
@@ -55,7 +53,7 @@ public class TodoController {
      *
      * @return the list
      */
-    @GetMapping(value = "/todos", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/todos")
     @ResponseStatus(HttpStatus.OK)
     public List<Todo> listTodos() {
         return this.getTodoService().list();
@@ -67,8 +65,7 @@ public class TodoController {
      * @param id the id
      * @return the todo
      */
-    @GetMapping(value = "/todos/{id}",
-        produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/todos/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Todo findTodo(@PathVariable("id") long id) {
         return this.getTodoService().findOne(id);
@@ -81,9 +78,7 @@ public class TodoController {
      * @param id   the id
      * @return the todo
      */
-    @PutMapping(value = "todos/{id}",
-            produces = { MediaType.APPLICATION_JSON_VALUE },
-            consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @PutMapping(value = "todos/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Todo updateTodo(@RequestBody Todo todo, @PathVariable("id") long id) {
         return this.getTodoService().update(todo, id);

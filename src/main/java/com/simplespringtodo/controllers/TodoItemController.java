@@ -46,9 +46,7 @@ public class TodoItemController {
      * @param id       the id
      * @return the todo item
      */
-    @PostMapping(value = "todos/{id}/todoItems",
-            produces = { MediaType.APPLICATION_JSON_VALUE },
-            consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @PostMapping(value = "todos/{id}/todoItems", consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
     public TodoItem createTodoItem(@RequestBody TodoItem todoItem, @PathVariable("id") long id) {
         todoItem.setTodoId(id);
@@ -62,8 +60,7 @@ public class TodoItemController {
      * @param id the id
      * @return the todo item
      */
-    @GetMapping(value = "/todoItems/{id}",
-    produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/todoItems/{id}")
     @ResponseStatus(HttpStatus.OK)
     public TodoItem findTodoItem(@PathVariable("id") long id) {
         return this.getTodoItemService().findOne(id);
@@ -74,10 +71,9 @@ public class TodoItemController {
      *
      * @return the all todo items
      */
-    @GetMapping(value = "/todoItems", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(path = "/todoItems")
     @ResponseStatus(HttpStatus.OK)
     public List<TodoItem> getAllTodoItems(@RequestParam(name = "completed") Optional<String> complete) {
-
         return complete.isPresent()
                 ? this.getTodoItemService().filter(Boolean.parseBoolean(complete.get()))
                 : this.getTodoItemService().list();
@@ -91,7 +87,7 @@ public class TodoItemController {
      * @param id       the id
      * @return the todo item
      */
-    @PutMapping(value = "/todoItems/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @PutMapping(value = "/todoItems/{id}")
     @ResponseStatus(HttpStatus.OK)
     public TodoItem update(@RequestBody TodoItem todoItem, @PathVariable("id") long id) {
         todoItem.setCompleted(false);
