@@ -1,5 +1,6 @@
 package com.simplespringtodo.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.simplespringtodo.repositories.TodoItemRepository;
 import com.simplespringtodo.repositories.TodoRepository;
 import com.simplespringtodo.services.TodoItemService;
@@ -89,5 +90,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public TodoItemService getTodoItemService() {
         return new TodoItemService(this.getTodoItemRepository(), this.getTodoService());
+    }
+
+    @Bean
+    public ObjectMapper getObjectMapper() {
+        return new ObjectMapper();
     }
 }

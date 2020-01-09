@@ -2,6 +2,9 @@ package com.simplespringtodo.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.simplespringtodo.models.Todo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -18,8 +21,18 @@ import java.io.InputStreamReader;
  * The type Reset request filter.
  */
 @WebFilter(filterName = "ResetRequestFilter", urlPatterns = "/todos")
-public class ResetRequestFilter implements Filter {
-    public void destroy() {
+public class ResetRequestFilter extends GenericFilterBean {
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    /**
+     * Gets object mapper.
+     *
+     * @return the object mapper
+     */
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
@@ -39,11 +52,10 @@ public class ResetRequestFilter implements Filter {
                         stringBuilder.append((char) bytesRead);
                     }
 
-                    ObjectMapper mapper = new ObjectMapper();
-                    Todo todo = mapper.readValue(stringBuilder.toString().getBytes(), Todo.class);
+                    Todo todo = getObjectMapper().readValue(stringBuilder.toString().getBytes(), Todo.class);
                     // Perform operations on todo instance here
 
-                    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(mapper.writeValueAsBytes(todo));
+                    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(getObjectMapper().writeValueAsBytes(todo));
                     inputStream = new ServletInputStream() {
 
                         @Override
@@ -78,7 +90,10 @@ public class ResetRequestFilter implements Filter {
         chain.doFilter(requestWrapper, resp);
     }
 
-    public void init(FilterConfig config) throws ServletException {}
+    @Override
+    public void initFilterBean() throws ServletException {
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+    }
 
 }
 

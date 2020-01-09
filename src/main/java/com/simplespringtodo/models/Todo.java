@@ -1,10 +1,5 @@
 package com.simplespringtodo.models;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.sql.Timestamp;
-
 /**
  * The type Todo.
  */
@@ -89,14 +84,11 @@ public class Todo {
 
     @Override
     public String toString() {
-        String string = new String();
-
-        try {
-            string = new ObjectMapper().writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        return string;
+        return this.getClass().getSimpleName() +" { " +
+                "id: " + this.getId() +
+                ", title: " + this.getTitle() +
+                ", createdAt: " + this.getCreatedAt()+
+                ", updatedAt: " + this.getUpdatedAt()+
+                " }";
     }
 }

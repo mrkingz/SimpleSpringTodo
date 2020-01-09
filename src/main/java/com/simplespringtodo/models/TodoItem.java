@@ -1,11 +1,5 @@
 package com.simplespringtodo.models;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
-
 /**
  * The type Todo item.
  */
@@ -141,13 +135,13 @@ public class TodoItem {
 
     @Override
     public String toString() {
-        String string = new String();
-        try {
-            string = new ObjectMapper().writeValueAsString(this);
-        } catch (JsonProcessingException ex) {
-            ex.printStackTrace();
-        }
-
-        return string;
+        return this.getClass().getSimpleName() + " { " +
+                "id: " + this.getId() +
+                ", todoId: " + this.getTodoId() +
+                ", content: " + this.getContent() +
+                ", isCompleted: " + this.isCompleted() +
+                ", createdAt: " + this.getCreatedAt() +
+                ", updatedAt: " + this.getUpdatedAt() +
+                " }";
     }
 }
