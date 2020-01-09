@@ -1,5 +1,5 @@
 ## SimpleSpringTodo
-A simple Todo API application. The application support both SOAP and REST response based the client Accept request 
+A simple Todo API application. The application support both SOAP and REST response format. 
 
 #### Technology stack
 - Java (Spring framework)
